@@ -7,7 +7,6 @@ create_home() {
 	vhosts_home=${INSTALL_PATH:-$def_vhosts_home}
 
 	mkdir -p "${vhosts_home}" && cd $_
-	#cd "${vhosts_home}"
 }
 
 download_files() {
@@ -15,10 +14,11 @@ download_files() {
 	
 	curl -L https://github.com/willfarrell/.vhosts/tarball/0.0.2 | tar xz
 	# copy contents into .vhosts folder
-	for FILE in `ls -l`
+	for FILE in `ls`
 	do
 		if test -d $FILE
 		then
+			shopt -s dotglob nullglob # grab dot files for move
 			mv ./$FILE/* ./
 			rm -rf $FILE
 		fi
@@ -49,6 +49,6 @@ echo $password | sudo -S apachectl restart # incase already started
 # Add Apache to LaunchDaemon
 echo $password | sudo -S mv com.apache.apachectl.plist /Library/LaunchDaemons/
 
-
+chmod 0766 json/db.json
 
 log "Done!"
