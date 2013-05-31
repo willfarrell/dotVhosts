@@ -49,6 +49,8 @@ You can add a .vhosts file into the root of your projects file and it will autom
     </Directory>
 </VirtualHost>
 ```
+### Flow of Information
+![Alt text][process]
 
 ## Terminal
 ### Apache
@@ -67,5 +69,7 @@ sudo nginx -s stop
 ## Roadmap
 - nginx support
 - debug on clean machine of clean install
+- yum packege to monitor for new .vhosts files
 
+[process]: ./screenshots/process.png "Flow of VirtualHost settings"
 [screenshot]: ./screenshots/screenshot.png "Screenshot of .vhosts Dashboard"
