@@ -11,9 +11,11 @@ Lightweight VirtualHost manager for Mac. A MAMP alternative.
 Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/setup.sh -o vhosts.sh && bash vhosts.sh && rm vhosts.sh`
 
 **Requirements:**
+
 1. Apache 2 (Built into Mac OS X)
 
 **Optional:**
+
 1. [Hosts.prefpane](https://github.com/specialunderwear/Hosts.prefpane/downloads)
 2. MySQL [dev.mysql.com](https://dev.mysql.com/downloads/mysql/)
 3. nginx `brew install nginx`
