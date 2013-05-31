@@ -79,7 +79,12 @@ class vhosts {
 	
 	private function parseHosts($file) {
 		if (!file_exists($file)) { return; }
+		
+		$perms = fileperms($file);
+		$perms = substr(decoct($perms), -4);
+		$this->chmod($this->config['hosts'], "0666");
 		$data = file_get_contents($file);
+		$this->chmod($this->config['hosts'], $perms);
 		
 		$lines = explode("\n", $data);
 		
@@ -217,7 +222,8 @@ class vhosts {
 		}
 		
 		$perms = fileperms($this->config['vhosts']);
-		$this->chmod($this->config['vhosts'], 0766);
+		$perms = substr(decoct($perms), -4);
+		$this->chmod($this->config['vhosts'], "0666");
 		file_put_contents($this->config['vhosts'], $data);
 		$this->chmod($this->config['vhosts'], $perms);
 	}
@@ -242,7 +248,8 @@ class vhosts {
 		}
 		
 		$perms = fileperms($this->config['hosts']);
-		$this->chmod($this->config['hosts'], 0766);
+		$perms = substr(decoct($perms), -4);
+		$this->chmod($this->config['hosts'], "0666");
 		file_put_contents($this->config['hosts'], $data);
 		$this->chmod($this->config['hosts'], $perms);
 	}
@@ -265,7 +272,8 @@ class vhosts {
 		$file = "/private/etc/apache2/users/".$name.".conf";
 		
 		$perms = fileperms($file);
-		$this->chmod($file, 0766);
+		$perms = substr(decoct($perms), -4);
+		$this->chmod($file, "0666");
 		file_put_contents($file, $data);
 		$this->chmod($file, $perms);
 	}
