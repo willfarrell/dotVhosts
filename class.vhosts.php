@@ -124,7 +124,7 @@ class vhosts {
 			}
 			
 			// remove <Directory>
-			preg_match_all("/<([\w]+).*?>([\s\S]*?)<\/[\w]+>/i", $VirtualHosts[$i], $matches);
+			/*preg_match_all("/<([\w]+).*?>([\s\S]*?)<\/[\w]+>/i", $VirtualHosts[$i], $matches);
 			$sub_ID = $matches[1];
 			$sub_OBJ = $matches[2];
 			for($j = 0; $j < count($sub_ID); $j++) {
@@ -135,7 +135,7 @@ class vhosts {
 				foreach($sub_ARR as $key => $value) {
 					$this->db[$ID][$sub_ID[$j]][$key] = str_replace("\"", "", $value);
 				}
-			}
+			}*/
 			
 			$this->db[$ID]['port'] = (int)$ports[$i];
 			$this->db[$ID]['enabled'] = "1";
@@ -215,10 +215,11 @@ class vhosts {
 			$data .= "</VirtualHost>\n\n";
 			
 		}
-		//$perms = fileperms($this->config['vhosts']);
-		//$this->chmod($this->config['vhosts'], 0766);
+		
+		$perms = fileperms($this->config['vhosts']);
+		$this->chmod($this->config['vhosts'], 0766);
 		file_put_contents($this->config['vhosts'], $data);
-		//$this->chmod($this->config['vhosts'], $perms);
+		$this->chmod($this->config['vhosts'], $perms);
 	}
 	
 	function writeHosts() {
@@ -240,10 +241,10 @@ class vhosts {
 			
 		}
 		
-		//$perms = fileperms($this->config['hosts']);
-		//$this->chmod($this->config['hosts'], 0766);
+		$perms = fileperms($this->config['hosts']);
+		$this->chmod($this->config['hosts'], 0766);
 		file_put_contents($this->config['hosts'], $data);
-		//$this->chmod($this->config['hosts'], $perms);
+		$this->chmod($this->config['hosts'], $perms);
 	}
 	
 	function writeApacheUser() {
@@ -261,7 +262,12 @@ class vhosts {
 		}
 		
 		$name = substr(dirname(__FILE__), 7, strpos(dirname(__FILE__), '/', 8) - 7);
-		file_put_contents("/private/etc/apache2/users/".$name.".conf", $data);
+		$file = "/private/etc/apache2/users/".$name.".conf";
+		
+		$perms = fileperms($file);
+		$this->chmod($file, 0766);
+		file_put_contents($file, $data);
+		$this->chmod($file, $perms);
 	}
 	
 	private function makeID($str) {

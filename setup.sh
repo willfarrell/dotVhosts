@@ -12,7 +12,7 @@ create_home() {
 download_files() {
 	log "Downloading repo files"
 	
-	curl -L https://github.com/willfarrell/.vhosts/tarball/0.0.3 | tar xz
+	curl -L https://github.com/willfarrell/.vhosts/tarball/0.0.4 | tar xz
 	# copy contents into .vhosts folder
 	for FILE in `ls`
 	do
@@ -37,17 +37,17 @@ sed -i.bak "s@^#LoadModule php5_module@LoadModule php5_module@g" /private/etc/ap
 sed -i.bak "s@^#Include /private/etc/apache2/extra/httpd-vhosts.conf@Include /private/etc/apache2/extra/httpd-vhosts.conf@" /private/etc/apache2/httpd.conf
 
 log "Startings up Apache"
-echo $password | sudo -S apachectl start # -k
+echo -n $password | sudo -S apachectl start # -k
 
 log "Building .vhosts DB"
-echo $password > .password # Save password for future sudo
+echo -n $password > .password # Save password for future sudo
 php index.php
 
 log "Restartings up Apache"
-echo $password | sudo -S apachectl restart # incase already started
+echo -n $password | sudo -S apachectl restart # incase already started
 
 # Add Apache to LaunchDaemon
-echo $password | sudo -S mv com.apache.apachectl.plist /Library/LaunchDaemons/
+echo -n $password | sudo -S mv com.apache.apachectl.plist /Library/LaunchDaemons/
 
 chmod 0766 json/db.json
 
