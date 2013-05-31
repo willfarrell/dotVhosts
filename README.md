@@ -3,7 +3,7 @@ Lightweight VirtualHost manager for Mac. A MAMP alternative.
 
 ## Features
 - Add and modify localhost VirtualHosts
-- Autoload `.vhosts` files from project folders and instert into global `vhosts.conf`
+- Autoload `.vhosts` files from project folders and instert them into global `httpd-vhosts.conf`
 
 ![Alt text][screenshot]
 
@@ -14,9 +14,10 @@ Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/setu
 1. Apache 2 (Built into Mac OS X)
 
 **Optional:**
-1. MySQL [dev.mysql.com](https://dev.mysql.com/downloads/mysql/)
-2. redis [redis.io](http://redis.io/download)
-3. nginx `brew install nginx`
+1. nginx `brew install nginx`
+2. MySQL [dev.mysql.com](https://dev.mysql.com/downloads/mysql/)
+3. redis [redis.io](http://redis.io/download)
+
 
 ##.vhosts File
 You can add a .vhosts file into the root of your projects file and it will automatically be loaded into your VirtualHosts the next time you visit `http://vhosts.localhost`. Project folders in `~/Sites` are scaned by default, you can add in a custom on by adding to the `dirs` array in `json/config.json`. `__DIR__` will automatically be replaced with the project directory.
@@ -25,18 +26,26 @@ You can add a .vhosts file into the root of your projects file and it will autom
 ```bash
 # VirtualHosts for Yeoman projects
 <VirtualHost *:8888>
-    ServerName sample
+    ServerName yeoman
     DocumentRoot __DIR__
 </VirtualHost>
 
 <VirtualHost *:8888>
-    ServerName app.sample
+    ServerName app.yeoman
     DocumentRoot __DIR__/app
 </VirtualHost>
 
 <VirtualHost *:8888>
-    ServerName dist.sample
+    ServerName dist.yeoman
     DocumentRoot __DIR__/dist
+</VirtualHost>
+
+<VirtualHost *:8888>
+    ServerName test.yeoman
+    DocumentRoot __DIR__
+    <Directory __DIR__>
+        DirectoryIndex test/e2e/runner.html
+    </Directory>
 </VirtualHost>
 ```
 

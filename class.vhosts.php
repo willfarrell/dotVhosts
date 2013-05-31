@@ -124,7 +124,7 @@ class vhosts {
 			}
 			
 			// remove <Directory>
-			/*preg_match_all("/<([\w]+).*?>([\s\S]*?)<\/[\w]+>/i", $VirtualHosts[$i], $matches);
+			preg_match_all("/<([\w]+).*?>([\s\S]*?)<\/[\w]+>/i", $VirtualHosts[$i], $matches);
 			$sub_ID = $matches[1];
 			$sub_OBJ = $matches[2];
 			for($j = 0; $j < count($sub_ID); $j++) {
@@ -135,7 +135,7 @@ class vhosts {
 				foreach($sub_ARR as $key => $value) {
 					$this->db[$ID][$sub_ID[$j]][$key] = str_replace("\"", "", $value);
 				}
-			}*/
+			}
 			
 			$this->db[$ID]['port'] = (int)$ports[$i];
 			$this->db[$ID]['enabled'] = "1";
