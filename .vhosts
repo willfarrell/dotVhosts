@@ -1,0 +1,9 @@
+<VirtualHost *:80>
+    ServerName vhosts.localhost
+    DocumentRoot __DIR__
+</VirtualHost>
+
+<VirtualHost *:8888>
+    ServerName vhosts
+    DocumentRoot __DIR__
+</VirtualHost>

@@ -1,0 +1,51 @@
+<form name="form" class="form-horizontal" data-ng-show="vhost.id" style="position:fixed; top:60px;">
+	<fieldset><legend>VirtualHost</legend></fieldset>
+	
+	<input type="hidden" name="id" ng-model="vhost.id" required>
+	
+	<div class="control-group">
+		<label class="control-label" for="enabled">enabled</label>
+		<div class="controls">
+			<label class="checkbox">
+				<input type="checkbox" class="input-block-level" name="enabled" ng-model="vhost.enabled" ng-true-value="1" ng-false-value="0"> Add to global httpd-vhosts.conf file.
+			</label>
+			
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="ServerName">ServerName</label>
+		<div class="controls">
+			<input type="text" class="input-block-level" name="ServerName" placeholder="localhost" ng-model="vhost.ServerName" required>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="DocumentRoot">DocumentRoot</label>
+		<div class="controls">
+			<input type="text" class="input-block-level" name="DocumentRoot" placeholder="/Users/username/Sites" ng-model="vhost.DocumentRoot" required>
+		</div>
+	</div>
+	
+	<!-- not build into browser -->
+	<!--<div class="control-group">
+		<label class="control-label" for="DocumentRoot">DocumentRoot</label>
+		<div class="controls">
+			<input class="hidden" type="file" id="file_upload" accept="" onchange="angular.element(this).scope().vhost.DocumentRoot = this" data-ng-model-instant />
+			<button class="btn" ng-click="buttonClick()">Pick DocumentRoot</button>
+			<a class="btn" ng-href="file:/{{vhost.DocumentRoot}}" ng-disabled="!vhost.DocumentRoot">Go To DocumentRoot</a>
+		</div>
+	</div>-->
+
+	<hr>
+
+	<div class="control-group">
+		<div class="controls">
+			<button class="btn" data-ng-click="saveVirtualHost(vhost)" ng-disabled="form.$invalid">Save</button>
+			<button class="btn btn-danger" data-ng-click="deleteVirtualHost(vhost)" ng-disabled="form.id.$invalid || vhost.import ==  '1'">Delete</button>
+			<br><br>
+			
+		</div>
+		<span class="help-block center" ng-show="vhost.import ==  '1'">This entry was imported, and cannot be deleted.</span>
+	</div>
+</form>

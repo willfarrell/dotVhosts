@@ -1,0 +1,35 @@
+<form name="form">
+<input type="text" class="input-block-level" placeholder="Search" ng-model="query">
+<table class="table table-striped table-bordered">
+	<thead>
+		<!--<th></th>-->
+		<th>ServerName</th>
+		<th>DocumentRoot</th>
+	</thead>
+	<tbody>
+	<tr ng-class="{info: (item.id == vhost.id)}" ng-repeat="item in db | objectArray | filter:query | orderBy:['-enabled','ServerName']" ng-click="loadVirtualHost(item)">
+		<!--<td><input type="checkbox" ng-model="item.enabled" ng-true-value="1" ng-false-value="0" disabled></td>-->
+		<td ng-show="item.enabled == '1'">
+			<a href="http://{{item.ServerName}}:{{item.port}}">{{item.ServerName}}:{{item.port}}</a><br>
+			<small>Added: {{item.timestamp * 1000 | date:'MMM d'}}
+		</td>
+		<td ng-show="item.enabled == '0'">
+			{{item.ServerName}}:{{item.port}}</a>
+		</td>
+		<td>{{item.DocumentRoot | precate:30}}</td>
+		<!--<td></td>-->
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="text" class="input-medium" placeholder="ServerName" ng-model="new.ServerName" required>
+			<input type="text" class="input-medium" placeholder="DocumentRoot" ng-model="new.DocumentRoot">
+			<button class="btn" ng-click="newVirtualHost(new)" ng-disabled="form.$invalid">Add New</button>
+		</td>
+		<!--<td>{{item}}</td>-->
+	</tr>
+	</tbody>
+</table>
+
+
+
+</form>

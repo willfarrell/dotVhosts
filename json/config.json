@@ -1,0 +1,12 @@
+{
+	"hosts": "/private/etc/hosts",
+	"vhosts": "/private/etc/apache2/extra/httpd-vhosts.conf",
+	"nginx": "/usr/local/etc/nginx/nginx.conf",
+	"ports": {
+		"apache": "8888",
+		"nginx": "0000",
+		"mysql": "8889",
+		"ssl": "8890"
+	},
+	"dirs": ["~/.vhosts", "~/Sites", "~/Dev"]
+}
