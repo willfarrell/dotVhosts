@@ -4,7 +4,7 @@
 	"nginx": "/usr/local/etc/nginx/nginx.conf",
 	"ports": {
 		"apache": "8888",
-		"nginx": "0000",
+		"nginx": "8080",
 		"mysql": "8889",
 		"ssl": "8890"
 	},
