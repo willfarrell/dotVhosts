@@ -28,8 +28,7 @@ download_files() {
 create_home
 
 # get password for sudos
-echo -n Password:
-read -sp password
+read -p "Password:" -s password
 
 download_files
 
