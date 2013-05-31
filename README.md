@@ -14,9 +14,10 @@ Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/setu
 1. Apache 2 (Built into Mac OS X)
 
 **Optional:**
-1. nginx `brew install nginx`
+1. [Hosts.prefpane](https://github.com/specialunderwear/Hosts.prefpane/downloads)
 2. MySQL [dev.mysql.com](https://dev.mysql.com/downloads/mysql/)
-3. redis [redis.io](http://redis.io/download)
+3. nginx `brew install nginx`
+4. redis [redis.io](http://redis.io/download)
 
 
 ##.vhosts File
@@ -51,25 +52,20 @@ You can add a .vhosts file into the root of your projects file and it will autom
 
 ## Terminal
 ### Apache
+```bash
 sudo apachectl -k start
 sudo apachectl -k restart
 sudo apachectl -k stop
+```
 
 ### nginx
+```bash
 sudo nginx
 sudo nginx -s stop
+```
 
 ## Roadmap
 - nginx support
-- debug on clean machine
-
-## .vhosts file
-1. make sure dir is readable by `everyone`
-
-
-***
-
-- [Hosts.prefpane](https://github.com/specialunderwear/Hosts.prefpane/downloads)
-
+- debug on clean machine of clean install
 
 [screenshot]: ./screenshots/screenshot.png "Screenshot of .vhosts Dashboard"
