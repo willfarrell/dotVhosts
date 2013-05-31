@@ -13,7 +13,7 @@ create_home() {
 download_files() {
 	log "Downloading repo files"
 	
-	curl -L https://github.com/willfarrell/.vhosts/tarball/0.0.1 | tar xz
+	curl -L https://github.com/willfarrell/.vhosts/tarball/0.0.2 | tar xz
 	# copy contents into .vhosts folder
 	for FILE in `ls -l`
 	do
