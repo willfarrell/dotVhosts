@@ -29,8 +29,7 @@ create_home
 
 # get password for sudos
 echo -n Password:
-read -s password
-echo $password > .password # Save password for future sudo
+read -sp password
 
 download_files
 
@@ -42,6 +41,7 @@ log "Startings up Apache"
 echo $password | sudo -S apachectl start # -k
 
 log "Building .vhosts DB"
+echo $password > .password # Save password for future sudo
 php index.php
 
 log "Restartings up Apache"
