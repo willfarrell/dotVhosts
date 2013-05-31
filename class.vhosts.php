@@ -186,7 +186,7 @@ class vhosts {
 	}
 	
 	function writeVhosts() {
-		$ignore = array("id", "enabled");
+		$ignore = array("id", "enabled", "import");
 		//$directives = array("ServerName", "ServerAdmin", "ServerAlias", "ServerPath", "DocumentRoot");
 		$data = "# Virtual Hosts\n\n"
 				."# Please see the documentation at\n"
