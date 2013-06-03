@@ -298,7 +298,7 @@ class vhosts {
 	}
 	
 	private function chmod($file, $value) {
-		echo "echo {$this->password} | sudo -S chmod $value $file\n";
+		//echo "echo {$this->password} | sudo -S chmod $value $file\n";
 		exec("echo {$this->password} | sudo -S chmod $value $file", $output, $return);
 		//echo $output; echo $return;
 	}
