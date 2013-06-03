@@ -10,7 +10,8 @@
 	<tr ng-class="{info: (item.id == vhost.id)}" ng-repeat="item in db | objectArray | filter:query | orderBy:['-enabled','ServerName']" ng-click="loadVirtualHost(item)">
 		<!--<td><input type="checkbox" ng-model="item.enabled" ng-true-value="1" ng-false-value="0" disabled></td>-->
 		<td ng-show="item.enabled == '1'">
-			<a href="http://{{item.ServerName}}:{{item.port}}">{{item.ServerName}}:{{item.port}}</a><br>
+			<!--<a href="http://{{item.ServerName}}:{{item.port}}">{{item.ServerName}}:{{item.port}}</a><br>-->
+			<a href="http://{{item.ServerName}}">{{item.ServerName}}</a><br>
 			<small>Added: {{item.timestamp * 1000 | date:'MMM d'}}
 		</td>
 		<td ng-show="item.enabled == '0'">

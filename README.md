@@ -8,7 +8,7 @@ Lightweight VirtualHost manager for Mac. A MAMP alternative.
 ![Alt text][screenshot]
 
 ## Install
-Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/setup.sh -o vhosts.sh && bash vhosts.sh && rm vhosts.sh`
+Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/boostrap.sh -o boostrap.sh && bash boostrap.sh && rm boostrap.sh`
 
 **Requirements:**
 

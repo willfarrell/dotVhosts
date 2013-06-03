@@ -1,9 +1,9 @@
-<VirtualHost *:80>
+<VirtualHost *>
     ServerName vhosts.localhost
-    DocumentRoot __DIR__
+    DocumentRoot __DIR__/www
 </VirtualHost>
 
-<VirtualHost *:8888>
+<VirtualHost *>
     ServerName vhosts
-    DocumentRoot __DIR__
+    DocumentRoot __DIR__/www
 </VirtualHost>

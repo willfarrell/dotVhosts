@@ -60,7 +60,7 @@ body { height: 100%; }
 	</div>
 	<div class="footer-push"></div>
 </div>
-<div class="footer" data-ng-include="'partials/footer.html'"></div>
+<div class="footer" ng-include="'partials/footer.html'"></div>
 
 <script src="lib/angular.js"></script>
 <script>
@@ -75,13 +75,6 @@ app.filter('precate', function() {
 		} else {
 			return start + String(text).substring(text.length - length + start.length);
 		}
-		
-		/*var index = String(text).lastIndexOf(str);
-		if (!index) {
-			return text;
-		} else {
-			return '...'+String(text).substring(index);
-		}*/
 	};
 }).filter('truncate', function() {
 	return function(text, length, end) {

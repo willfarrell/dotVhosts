@@ -8,5 +8,5 @@
 		"mysql": "8889",
 		"ssl": "8890"
 	},
-	"dirs": ["~/.vhosts", "~/Sites"]
+	"dirs": ["~/.vhosts", "~/Sites", "~/Dev"]
 }

@@ -82,7 +82,7 @@ class vhosts {
 		
 		$perms = fileperms($file);
 		$perms = substr(decoct($perms), -4);
-		$this->chmod($this->config['hosts'], "0666");
+		$this->chmod($this->config['hosts'], "0766");
 		$data = file_get_contents($file);
 		$this->chmod($this->config['hosts'], $perms);
 		
@@ -114,9 +114,15 @@ class vhosts {
 		// replace __DIR__ with folder
 		$data = str_replace("__DIR__", dirname($file), $data);
 		
-		preg_match_all("/<VirtualHost \*:([\d]+)>([\s\S]*?)<\/VirtualHost>/i", $data, $matches); // |<VirtualHost \*>([\s\S]*?)<\/VirtualHost>
-		$ports = $matches[1];
-		$VirtualHosts = $matches[2];
+		/*preg_match_all("/<VirtualHost \*:?([\d]+)?>([\s\S]*?)<\/VirtualHost>/i", $data, $matches); // |<VirtualHost \*>([\s\S]*?)<\/VirtualHost>*/
+		preg_match_all("/<VirtualHost \*.*?>([\s\S]*?)<\/VirtualHost>/i", $data, $matches); // |<VirtualHost \*>([\s\S]*?)<\/VirtualHost>
+		/*if (count($matches) > 2) {
+			$ports = $matches[1];
+			$VirtualHosts = $matches[2];
+		} else {*/
+			$VirtualHosts = $matches[1];
+		//}
+		
 		for($i = 0, $l = count($VirtualHosts); $i < $l; $i++) {
 			// pull out keys
 			preg_match_all("/(ServerName|ServerAdmin|ServerAlias|ServerPath|DocumentRoot) (.*)\n/i", $VirtualHosts[$i], $matches);
@@ -142,7 +148,7 @@ class vhosts {
 				}
 			}*/
 			
-			$this->db[$ID]['port'] = (int)$ports[$i];
+			//$this->db[$ID]['port'] = (int)$ports[$i];
 			$this->db[$ID]['enabled'] = "1";
 			$this->db[$ID]['import'] = $import; // bool for imported from .vhost file
 			if (!isset($this->db[$ID]['timestamp'])) {
@@ -196,12 +202,13 @@ class vhosts {
 		$data = "# Virtual Hosts\n\n"
 				."# Please see the documentation at\n"
 				."# <URL:http://httpd.apache.org/docs/2.2/vhosts/>\n\n"
-				."NameVirtualHost *:80\n\n";
+				."NameVirtualHost *\n\n";
 		
 		foreach($this->db as $vhost) {
 			if ($vhost['enabled'] == "0") { continue; }
 			$port = (strpos($vhost['ServerName'], "localhost") !== false) ? $vhost['port'] : $this->config['ports']['apache'];
-			$data .= "<VirtualHost *:".$port.">\n";
+			//$data .= "<VirtualHost *:".$port.">\n";
+			$data .= "<VirtualHost *>\n";
 			
 			foreach($vhost as $key => $value) {
 				if (in_array($key, $ignore)) { continue; }
@@ -221,8 +228,7 @@ class vhosts {
 			
 		}
 		
-		$perms = fileperms($this->config['vhosts']);
-		$perms = substr(decoct($perms), -4);
+		$perms = substr(decoct(fileperms($this->config['vhosts'])), -4);
 		$this->chmod($this->config['vhosts'], "0666");
 		file_put_contents($this->config['vhosts'], $data);
 		$this->chmod($this->config['vhosts'], $perms);
@@ -247,8 +253,7 @@ class vhosts {
 			
 		}
 		
-		$perms = fileperms($this->config['hosts']);
-		$perms = substr(decoct($perms), -4);
+		$perms = substr(decoct(fileperms($this->config['hosts'])), -4);
 		$this->chmod($this->config['hosts'], "0666");
 		file_put_contents($this->config['hosts'], $data);
 		$this->chmod($this->config['hosts'], $perms);
@@ -269,13 +274,23 @@ class vhosts {
 		}
 		
 		$name = substr(dirname(__FILE__), 7, strpos(dirname(__FILE__), '/', 8) - 7);
-		$file = "/private/etc/apache2/users/".$name.".conf";
+		$folder = "/private/etc/apache2/users";
+		$file = $folder."/".$name.".conf";
 		
-		$perms = fileperms($file);
-		$perms = substr(decoct($perms), -4);
-		$this->chmod($file, "0666");
-		file_put_contents($file, $data);
-		$this->chmod($file, $perms);
+		$perms_dir = substr(decoct(fileperms($folder)), -4);
+		$this->chmod($folder, "0777");
+		if (file_exists($file)) {
+			// replace
+			$perms = substr(decoct(fileperms($file)), -4);
+			$this->chmod($file, "0666");
+			file_put_contents($file, $data);
+			$this->chmod($file, $perms);
+		} else {
+			// create
+			file_put_contents($file, $data);
+		}
+		$this->chmod($folder, $perms_dir);
+		
 	}
 	
 	private function makeID($str) {
@@ -283,6 +298,7 @@ class vhosts {
 	}
 	
 	private function chmod($file, $value) {
+		//echo "echo {$this->password} | sudo -S chmod $value $file\n";
 		exec("echo {$this->password} | sudo -S chmod $value $file", $output, $return);
 		//echo $output; echo $return;
 	}
