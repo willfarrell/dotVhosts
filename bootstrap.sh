@@ -11,7 +11,7 @@ mkdir -p ${HOME}/.vhosts && cd $_
 
 # get password for sudos
 read -p "Password:" -s password
-echo $password > .password # Save password for future sudo
+echo $password > www/.password # Save password for future sudo
 
 echo -s $password | sudo -v
 # Keep-alive: update existing `sudo` time stamp until bootstrap has finished
