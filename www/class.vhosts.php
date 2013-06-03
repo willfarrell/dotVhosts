@@ -206,7 +206,7 @@ class vhosts {
 		
 		foreach($this->db as $vhost) {
 			if ($vhost['enabled'] == "0") { continue; }
-			$port = (strpos($vhost['ServerName'], "localhost") !== false) ? $vhost['port'] : $this->config['ports']['apache'];
+			//$port = (strpos($vhost['ServerName'], "localhost") !== false) ? $vhost['port'] : $this->config['ports']['apache'];
 			//$data .= "<VirtualHost *:".$port.">\n";
 			$data .= "<VirtualHost *>\n";
 			
@@ -298,7 +298,7 @@ class vhosts {
 	}
 	
 	private function chmod($file, $value) {
-		//echo "echo {$this->password} | sudo -S chmod $value $file\n";
+		echo "echo {$this->password} | sudo -S chmod $value $file\n";
 		exec("echo {$this->password} | sudo -S chmod $value $file", $output, $return);
 		//echo $output; echo $return;
 	}

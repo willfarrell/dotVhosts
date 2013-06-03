@@ -12,7 +12,7 @@ mkdir -p ${HOME}/.vhosts && cd $_
 # get password for sudos
 read -p "Password:" -s password
 
-echo -s $password | sudo -v
+echo $password | sudo -v
 # Keep-alive: update existing `sudo` time stamp until bootstrap has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
@@ -39,7 +39,7 @@ download_files() {
 ### Process ###
 log ""
 download_files
-echo $password > www/.password # Save password for future sudo
+echo -n $password > www/.password # Save password for future sudo
 
 # Permissions
 sudo chmod 0766 www/json/db.json
@@ -57,7 +57,8 @@ log "Startings up Apache"
 sudo apachectl start # -k
 
 log "Building .vhosts DB"
-php www/index.php
+cd www
+php index.php
 
 log "Restartings up Apache"
 sudo apachectl restart # incase already started
