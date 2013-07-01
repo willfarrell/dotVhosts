@@ -3,7 +3,7 @@
 # Setup
 cd ${HOME}/.vhosts
 
-set -- $(<.password) # $1 == pasword
+set -- $(<.password) # Load bootstrap.sh saved password into $1
 
 echo $1 | sudo -v
 # Keep-alive: update existing `sudo` time stamp until bootstrap has finished

@@ -12,7 +12,7 @@ class vhosts {
 	function __construct() {
 		$this->config = json_decode(file_get_contents('json/config.json'), true);
 		$this->db = json_decode(file_get_contents('json/db.json'), true);
-		$this->password = file_get_contents('.password');
+		//$this->password = file_get_contents('.password');
 		
 		//$this->httpd = file_get_contents($this->config['httpd']);
 		//$this->nginx = file_get_contents($this->config['nginx']);
@@ -267,7 +267,7 @@ class vhosts {
 			$dir = str_replace("~", substr(dirname(__FILE__), 0, strpos(dirname(__FILE__), '/', 7)), $dir);
 			$data .= "<Directory \"$dir\">\n"
 					."    Options Indexes MultiViews\n"
-					."    AllowOverride None\n"
+					."    AllowOverride All\n" // AllowOverride All to allow .htaccess
 					."    Order allow,deny\n"
 					."    Allow from all\n"
 					."</Directory>\n\n";

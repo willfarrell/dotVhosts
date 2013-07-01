@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.farrell.localhost</string>
+	<string>com.farrell.vhosts</string>
 	<string></string>
 	<key>ProgramArguments</key>
 	<array>
