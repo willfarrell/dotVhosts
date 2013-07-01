@@ -17,7 +17,7 @@ Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/boos
 **Optional:**
 
 1. [Hosts.prefpane](https://github.com/specialunderwear/Hosts.prefpane/downloads)
-2. MySQL [dev.mysql.com](https://dev.mysql.com/downloads/mysql/)
+2. MySQL [dev.mysql.com](https://dev.mysql.com/downloads/mysql/) - [Useful settings](http://www.sequelpro.com/docs/Where_are_MySQLs_Files)
 3. nginx `brew install nginx`
 4. redis [redis.io](http://redis.io/download)
 
@@ -68,6 +68,11 @@ sudo nginx
 sudo nginx -s stop
 ```
 
+### MySQL
+```bash
+sudo /usr/local/mysql/support-files/mysql.server start
+sudo /usr/local/mysql/support-files/mysql.server stop
+```
 ## Roadmap
 - nginx support
 - debug on clean machine of clean install

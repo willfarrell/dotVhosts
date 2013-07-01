@@ -42,12 +42,12 @@ download_files
 echo -n $password > www/.password # Save password for future sudo
 
 # Permissions
-sudo chmod 0766 www/json/db.json
+sudo chmod u+w www/json/db.json
 
-sudo chmod 0766 /private/etc/hosts
-sudo chmod 0766 /private/etc/apache2/extra/httpd-vhosts.conf
-sudo chmod 0766 /private/etc/apache2/users
-sudo chmod 0766 /usr/local/etc/nginx/nginx.conf
+sudo chmod u+w /private/etc/hosts
+sudo chmod u+w /private/etc/apache2/extra/httpd-vhosts.conf
+sudo chmod -R u+w /private/etc/apache2/users
+sudo chmod u+w /usr/local/etc/nginx/nginx.conf
 
 log "Updating Apache settings"
 sed -i.bak "s@^#LoadModule php5_module@LoadModule php5_module@g" /private/etc/apache2/httpd.conf
@@ -64,6 +64,18 @@ log "Restartings up Apache"
 sudo apachectl restart # incase already started
 
 # Add Apache to LaunchDaemon
-sudo mv com.apache.apachectl.plist /Library/LaunchDaemons/
+#sudo mv com.apache.apachectl.plist /Library/LaunchDaemons/
+sudo mv com.farrell.vhosts.plist /Library/LaunchDaemons/
+
+# Add mysql alias
+echo alias mysql=/usr/local/mysql/bin/mysql >> ~/.bashrc
+echo alias mysqladmin=/usr/local/mysql/bin/mysqladmin >> ~/.bashrc
+
+# Setup MySQL socket linking for PHP
+cd /var 
+sudo mkdir mysql && cd $_
+sudo ln -s /tmp/mysql.sock mysql.sock
+
+#mysqladmin -u root -p localhost
 
 log "Done!"

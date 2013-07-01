@@ -82,9 +82,9 @@ class vhosts {
 		
 		$perms = fileperms($file);
 		$perms = substr(decoct($perms), -4);
-		$this->chmod($this->config['hosts'], "0766");
+		//$this->chmod($this->config['hosts'], "0766");
 		$data = file_get_contents($file);
-		$this->chmod($this->config['hosts'], $perms);
+		//$this->chmod($this->config['hosts'], $perms);
 		
 		$lines = explode("\n", $data);
 		
@@ -173,7 +173,7 @@ class vhosts {
 		if (substr($path, -1) != "/") { $path .= "/"; }
 		
 		//$perms = fileperms($this->config['hosts']);
-		//$this->chmod($this->config['hosts'], 0744);
+		////$this->chmod($this->config['hosts'], 0744);
 		
 		$fp = opendir($path);
 		while($f = readdir($fp)){
@@ -193,7 +193,7 @@ class vhosts {
 				$this->parseVhosts($file_full_path, "1");
 			}
 		}
-		//$this->chmod($this->config['hosts'], $perms);
+		////$this->chmod($this->config['hosts'], $perms);
 	}
 	
 	function writeVhosts() {
@@ -229,9 +229,9 @@ class vhosts {
 		}
 		
 		$perms = substr(decoct(fileperms($this->config['vhosts'])), -4);
-		$this->chmod($this->config['vhosts'], "0666");
+		//$this->chmod($this->config['vhosts'], "0666");
 		file_put_contents($this->config['vhosts'], $data);
-		$this->chmod($this->config['vhosts'], $perms);
+		//$this->chmod($this->config['vhosts'], $perms);
 	}
 	
 	function writeHosts() {
@@ -254,9 +254,9 @@ class vhosts {
 		}
 		
 		$perms = substr(decoct(fileperms($this->config['hosts'])), -4);
-		$this->chmod($this->config['hosts'], "0666");
+		//$this->chmod($this->config['hosts'], "0666");
 		file_put_contents($this->config['hosts'], $data);
-		$this->chmod($this->config['hosts'], $perms);
+		//$this->chmod($this->config['hosts'], $perms);
 	}
 	
 	function writeApacheUser() {
@@ -278,18 +278,18 @@ class vhosts {
 		$file = $folder."/".$name.".conf";
 		
 		$perms_dir = substr(decoct(fileperms($folder)), -4);
-		$this->chmod($folder, "0777");
+		//$this->chmod($folder, "0777");
 		if (file_exists($file)) {
 			// replace
 			$perms = substr(decoct(fileperms($file)), -4);
-			$this->chmod($file, "0666");
+			//$this->chmod($file, "0666");
 			file_put_contents($file, $data);
-			$this->chmod($file, $perms);
+			//$this->chmod($file, $perms);
 		} else {
 			// create
 			file_put_contents($file, $data);
 		}
-		$this->chmod($folder, $perms_dir);
+		//$this->chmod($folder, $perms_dir);
 		
 	}
 	
