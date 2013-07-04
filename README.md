@@ -25,32 +25,44 @@ Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/boos
 ##.vhosts File
 You can add a .vhosts file into the root of your projects file and it will automatically be loaded into your VirtualHosts the next time you visit `http://vhosts.localhost`. Project folders in `~/Sites` are scaned by default, you can add in a custom on by adding to the `dirs` array in `json/config.json`. `__DIR__` will automatically be replaced with the project directory.
 
+### users/username.conf
+```bash
+# Defaults applied to all directories listed in json/config.json['dirs']
+<Directory "/Users/username/.vhosts">
+    Options Indexes MultiViews Includes ExecCGI
+    AllowOverride All
+    Order Deny,Allow
+    Allow from all
+</Directory>
+```
+
 ### Sample .vhosts File
 ```bash
 # VirtualHosts for Yeoman projects
-<VirtualHost *:8888>
+<VirtualHost *>
     ServerName yeoman
     DocumentRoot __DIR__
 </VirtualHost>
 
-<VirtualHost *:8888>
+<VirtualHost *>
     ServerName app.yeoman
     DocumentRoot __DIR__/app
 </VirtualHost>
 
-<VirtualHost *:8888>
+<VirtualHost *>
     ServerName dist.yeoman
     DocumentRoot __DIR__/dist
 </VirtualHost>
 
-<VirtualHost *:8888>
+<VirtualHost *>
     ServerName test.yeoman
     DocumentRoot __DIR__
-    <Directory __DIR__>
+    <Directory>
         DirectoryIndex test/e2e/runner.html
     </Directory>
 </VirtualHost>
 ```
+
 ### Flow of Information
 ![Alt text][process]
 
@@ -74,9 +86,10 @@ sudo /usr/local/mysql/support-files/mysql.server start
 sudo /usr/local/mysql/support-files/mysql.server stop
 ```
 ## Roadmap
+- port support
 - nginx support
 - debug on clean machine of clean install
-- yum packege to monitor for new .vhosts files
+- yum package to monitor for new .vhosts files
 
 [process]: ./screenshots/process.png "Flow of VirtualHost settings"
 [screenshot]: ./screenshots/screenshot.png "Screenshot of .vhosts Dashboard"

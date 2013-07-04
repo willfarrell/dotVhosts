@@ -134,6 +134,23 @@ class vhosts {
 				$this->db[$ID][$key] = str_replace("\"", "", $value);
 			}
 			
+			// <Directory>
+			preg_match_all("/<Directory.*?>\s*([\s\S]*?)\s*<\/Directory>/i", $VirtualHosts[$i], $matches);
+			if ($matches[1][0]) {
+				$this->db[$ID]['Directory'] = trim(preg_replace("/\n[ ]+/", "\n", $matches[1][0]));
+			}
+			
+			/*$directory = $matches[1];
+			for($j = 0; $j < count($directory); $j++) {
+				$this->db[$ID]['directory'] = array();
+				// pull out keys
+				preg_match_all("/([\w]+) (.*)\n/i", $sub_OBJ[0], $matches);
+				$sub_ARR = array_combine($matches[1], $matches[2]);
+				foreach($sub_ARR as $key => $value) {
+					$this->db[$ID][$sub_ID[$j]][$key] = str_replace("\"", "", $value);
+				}
+			}*/
+			
 			// remove <Directory>
 			/*preg_match_all("/<([\w]+).*?>([\s\S]*?)<\/[\w]+>/i", $VirtualHosts[$i], $matches);
 			$sub_ID = $matches[1];
@@ -202,7 +219,8 @@ class vhosts {
 		$data = "# Virtual Hosts\n\n"
 				."# Please see the documentation at\n"
 				."# <URL:http://httpd.apache.org/docs/2.2/vhosts/>\n\n"
-				."NameVirtualHost *\n\n";
+				."NameVirtualHost *\n"
+				."\n";
 		
 		foreach($this->db as $vhost) {
 			if ($vhost['enabled'] == "0") { continue; }
@@ -212,9 +230,13 @@ class vhosts {
 			
 			foreach($vhost as $key => $value) {
 				if (in_array($key, $ignore)) { continue; }
-				if (is_string($value)) {
+				if ($key == "Directory") {
+					$data .= "    <$key ".$vhost['DocumentRoot'].">\n";
+					$data .= "        ".preg_replace("/\n/", "\n        ", $value)."\n";
+					$data .= "    </$key>\n";
+				} else if (is_string($value)) {
 					$data .= "    $key $value\n";
-				} else if (is_array($value)) {
+				}/* else if (is_array($value)) {
 					$data .= "    <$key ".$vhost['DocumentRoot'].">\n";
 					//$data .= "        Options +Indexes +FollowSymLinks\n"; // https://httpd.apache.org/docs/current/mod/core.html#options
 					//$data .= "        DirectoryIndex index.html index.php\n";
@@ -222,7 +244,7 @@ class vhosts {
 						$data .= "        $k $v\n";
 					}
 					$data .= "    </$key>\n";
-				}
+				}*/
 			}
 			$data .= "</VirtualHost>\n\n";
 			
@@ -266,9 +288,9 @@ class vhosts {
 			//$this->php_grep(str_replace("~", dirname(__FILE__)."/..", $dir), 2);
 			$dir = str_replace("~", substr(dirname(__FILE__), 0, strpos(dirname(__FILE__), '/', 7)), $dir);
 			$data .= "<Directory \"$dir\">\n"
-					."    Options Indexes MultiViews\n"
+					."    Options Indexes MultiViews Includes ExecCGI\n"
 					."    AllowOverride All\n" // AllowOverride All to allow .htaccess
-					."    Order allow,deny\n"
+					."    Order Deny,Allow\n"
 					."    Allow from all\n"
 					."</Directory>\n\n";
 		}
