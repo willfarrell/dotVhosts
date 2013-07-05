@@ -152,6 +152,29 @@ function AppCtrl($scope, $http) {
 		}
 	}
 	
+	$scope.printVirtualHost = function(vhost) {
+		var allow = ['ServerName','ServerAdmin','ServerAlias','ServerPath','DocumentRoot'];
+		//var ignore = ['id', 'enabled', 'import'];
+		var data = '';
+		
+		data += Object.prototype.hasOwnProperty.call(vhost, 'port')
+				? '<VirtualHost *:'+vhost[port]+'>\n'
+				: '<VirtualHost *>\n';
+			
+		for(var key in vhost) {
+			/*if (ignore.indexOf(key) !== -1) {
+				continue;
+			} else */if (allow.indexOf(key) !== -1) {
+				data += '    '+key+' '+vhost[key]+'\n';
+			} else if (key == 'Directory') {
+				data += '    <'+key+' "'+vhost['DocumentRoot']+'">\n';
+				data += '        '+vhost[key].replace(/\n/gi, '\n        ')+'\n';
+				data += '    </'+key+'>\n';
+			}
+		}
+		data += '</VirtualHost>';
+		return data;
+	}
 	/*$scope.buttonClick = function() {
 		document.getElementById('file_upload').click();
 	};*/

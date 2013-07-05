@@ -1,5 +1,28 @@
-<form name="form" class="form-horizontal" data-ng-show="vhost.id" style="position:fixed; top:60px;">
-	<fieldset><legend>VirtualHost</legend></fieldset>
+<!-- Default View -->
+<pre ng-hide="vhost.id">
+# Sample .vhosts file
+#
+# __DIR__ = The folder the .vhosts file is in
+# ie. '/Users/USERNAME/.vhosts'
+# &lt;Directory&gt; is optional if parent directory is included in config.json
+
+{{printVirtualHost({
+'ServerName': 'vhosts.localhost',
+'DocumentRoot': '__DIR__/www',
+'Directory': 'Options Indexes MultiViews Includes ExecCGI
+AllowOverride All
+Order Deny,Allow
+Allow from all'
+</Directory>
+})}}
+</pre>
+
+<!-- Edit -->
+<form name="form" class="form-horizontal" ng-show="vhost.id" style="position:fixed; top:60px;">	<fieldset><legend>VirtualHost</legend></fieldset>
+	
+	<div class="control-group">
+	<span class="help-block center" ng-show="vhost.import ==  '1'">This entry was created from a .vhosts file.<br>To ensure consistency across all maintainers, modify the .vhosts file instead.</span>
+	</div>
 	
 	<input type="hidden" name="id" ng-model="vhost.id" required>
 	
@@ -16,7 +39,28 @@
 	<div class="control-group">
 		<label class="control-label" for="ServerName">ServerName</label>
 		<div class="controls">
-			<input type="text" class="input-block-level" name="ServerName" placeholder="localhost" ng-model="vhost.ServerName" required>
+			<input type="text" class="input-block-level" name="ServerName" placeholder="localhost" ng-model="vhost.ServerName" ng-disabled="vhost.import ==  '1'" required>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="ServerAdmin">ServerAdmin</label>
+		<div class="controls">
+			<input type="text" class="input-block-level" name="ServerAdmin" placeholder="" ng-model="vhost.ServerAdmin">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="ServerAlias">ServerAlias</label>
+		<div class="controls">
+			<input type="text" class="input-block-level" name="ServerAlias" placeholder="" ng-model="vhost.ServerAlias">
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label" for="ServerPath">ServerPath</label>
+		<div class="controls">
+			<input type="text" class="input-block-level" name="ServerPath" placeholder="" ng-model="vhost.ServerPath">
 		</div>
 	</div>
 	
@@ -27,20 +71,15 @@
 		</div>
 	</div>
 	
-	<!--<div class="control-group">
-		<label class="control-label" for="enabled">Directory</label>
-		<div class="controls">
-			<label class="checkbox">
-				<input type="checkbox" class="input-block-level" name="directory" ng-model="vhost.directory" ng-true-value="1" ng-false-value="0"> Uses DocumentRoot to set &lt;Directory&gt;.
-			</label>
-			
-		</div>
-	</div>-->
-	
 	<div class="control-group">
 		<label class="control-label" for="Directory">&lt;Directory&gt;</label>
 		<div class="controls">
-			<textarea class="input-block-level" name="Directory" ng-model="vhost.Directory" rows="5"></textarea>
+			<textarea class="input-block-level" name="Directory" ng-model="vhost.Directory" rows="5">
+Options Indexes MultiViews Includes ExecCGI
+AllowOverride All
+Order Deny,Allow
+Allow from all
+			</textarea>
 		</div>
 	</div>
 
@@ -50,9 +89,11 @@
 		<div class="controls">
 			<button class="btn" data-ng-click="saveVirtualHost(vhost)" ng-disabled="form.$invalid">Save</button>
 			<button class="btn btn-danger" data-ng-click="deleteVirtualHost(vhost)" ng-disabled="form.id.$invalid || vhost.import ==  '1'">Delete</button>
-			<br><br>
 			
 		</div>
-		<span class="help-block center" ng-show="vhost.import ==  '1'">This entry was imported from a project folder. Cannot be deleted.</span>
 	</div>
+	
+	<!-- View -->
+	<pre>{{printVirtualHost(vhost)}}</pre>
 </form>
+
