@@ -22,6 +22,16 @@ class vhosts {
 	
 	function __destruct() {
 		//save('db.json', json_encode($this->db));
+		
+		// clean DB
+		$required = array('id', 'enabled', 'ServerName');
+		foreach($this->db as $key => $vhost) {
+			$keys = array_keys($vhost);
+			foreach ($required as $require) {
+				if (!in_array($require, $keys)) { unset($this->db[$key]); }
+			}
+		}
+		
 		file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'json/db.json', json_encode($this->db));
 		$this->writeVhosts();
 		$this->writeHosts();
@@ -101,8 +111,13 @@ class vhosts {
 					
 					$this->db[$ID]["id"] = $ID;
 					$this->db[$ID]["enabled"] = "0";
+					
+					/*if (!isset($this->db[$ID]['timestamp'])) {
+						$this->db[$ID]['timestamp'] = $_SERVER['REQUEST_TIME'];
+					}*/
 				}
 			}
+			
 		}
 	}
 	
@@ -126,6 +141,8 @@ class vhosts {
 		for($i = 0, $l = count($VirtualHosts); $i < $l; $i++) {
 			// pull out keys
 			preg_match_all("/(ServerName|ServerAdmin|ServerAlias|ServerPath|DocumentRoot) (.*)\n/i", $VirtualHosts[$i], $matches);
+			if (!count($matches[0])) continue;
+			
 			$vhosts = array_combine($matches[1], $matches[2]);
 			$ID = $this->makeID($vhosts['ServerName']);
 			$this->db[$ID]['id'] = $ID;
