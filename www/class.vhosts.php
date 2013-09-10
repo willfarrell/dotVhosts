@@ -101,20 +101,22 @@ class vhosts {
 		foreach($lines as $line) {
 			if ($line && substr($line, 0,1) != "#") { // not blank and not commented
 				preg_match("/([\d]+.[\d]+.[\d]+.[\d]+|[^\s]*)[\s]+(.*)/i", $line, $matches);
-				$ip = $matches[1];
-				$domain = trim($matches[2]);
-				$ID = $this->makeID($domain);
-				if ($ip == "127.0.0.1" && !isset($this->db[$ID])) {
-					$this->db[$ID]["port"] = 80;
-					$this->db[$ID]["ServerName"] = $domain;
-					$this->db[$ID]["DocumentRoot"] = "";
-					
-					$this->db[$ID]["id"] = $ID;
-					$this->db[$ID]["enabled"] = "0";
-					
-					/*if (!isset($this->db[$ID]['timestamp'])) {
-						$this->db[$ID]['timestamp'] = $_SERVER['REQUEST_TIME'];
-					}*/
+				if ($matches) {
+					$ip = $matches[1];
+					$domain = trim($matches[2]);
+					$ID = $this->makeID($domain);
+					if ($ip == "127.0.0.1" && !isset($this->db[$ID])) {
+						$this->db[$ID]["port"] = 80;
+						$this->db[$ID]["ServerName"] = $domain;
+						$this->db[$ID]["DocumentRoot"] = "";
+						
+						$this->db[$ID]["id"] = $ID;
+						$this->db[$ID]["enabled"] = "0";
+						
+						/*if (!isset($this->db[$ID]['timestamp'])) {
+							$this->db[$ID]['timestamp'] = $_SERVER['REQUEST_TIME'];
+						}*/
+					}
 				}
 			}
 			
@@ -153,7 +155,7 @@ class vhosts {
 			
 			// <Directory>
 			preg_match_all("/<Directory.*?>\s*([\s\S]*?)\s*<\/Directory>/i", $VirtualHosts[$i], $matches);
-			if ($matches[1][0]) {
+			if ($matches[1] && $matches[1][0]) {
 				$this->db[$ID]['Directory'] = trim(preg_replace("/\n[ ]+/", "\n", $matches[1][0]));
 			}
 			
