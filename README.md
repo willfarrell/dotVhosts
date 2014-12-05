@@ -23,7 +23,7 @@ Run in Terminal: `curl -s https://raw.github.com/willfarrell/.vhosts/master/boos
 
 
 ##.vhosts File
-You can add a .vhosts file into the root of your projects file and it will automatically be loaded into your VirtualHosts the next time you visit `http://vhosts.localhost`. Project folders in `~/Sites` are scaned by default, you can add in a custom on by adding to the `dirs` array in `json/config.json`. `__DIR__` will automatically be replaced with the project directory.
+You can add a .vhosts file into the root of your project directory and it will automatically be loaded into your VirtualHosts the next time you visit `http://vhosts.localhost`. Project folders in `~/Sites` are scanned by default, you can add a custom one by adding to the `dirs` array in `json/config.json`. `__DIR__` will automatically be replaced with the project directory.
 
 ### users/username.conf
 ```bash
